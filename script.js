@@ -8,14 +8,14 @@ function salvarSolicitacao() {
     var csvRow = posto + ',' + nome + ',' + solicitacao + '\n';
 
     // Configurações para a chamada da API do GitHub
-    var username = 'arthurmaica'; // Substitua pelo seu usuário do GitHub
-    var repository = 'arranchamentocap'; // Substitua pelo nome do seu repositório
-    var path = 'solicitacoes.csv'; // Substitua pelo caminho do arquivo no seu repositório
-    var token = 'das-dasd-asdasd-asd-asdasd-asda'; // Substitua pelo seu token de acesso pessoal do GitHub
+    var username = 'arthurmaica'; // Seu usuário do GitHub
+    var repository = 'arranchamentocap'; // Seu repositório no GitHub
+    var path = 'solicitacoes.csv'; // Caminho para o arquivo solicitacoes.csv no repositório
+    var token = 'das-dasd-asdasd-asd-asdasd-asda'; // Seu token de acesso pessoal do GitHub
 
     // Constrói a URL da API do GitHub para obter o conteúdo do arquivo
     var apiUrl = `https://api.github.com/repos/${username}/${repository}/contents/${path}`;
-    
+
     // Faz uma requisição GET para obter o conteúdo atual do arquivo CSV
     fetch(apiUrl, {
         headers: {
@@ -31,18 +31,18 @@ function salvarSolicitacao() {
         content += csvRow;
 
         // Codifica o conteúdo atualizado em base64
-        var updatedContent = btoa(content);
+        var updatedContent = btoa(unescape(encodeURIComponent(content)));
 
         // Constrói o corpo da requisição PATCH para atualizar o arquivo no GitHub
-       var requestBody = {
-    message: 'Adicionando nova solicitação via formulário',
-    content: updatedContent,
-    sha: data.sha
-};
+        var requestBody = {
+            message: 'Adicionando nova solicitação via formulário',
+            content: updatedContent,
+            sha: data.sha
+        };
 
         // Constrói a URL da API do GitHub para atualizar o arquivo
-      var updateUrl = `https://api.github.com/repos/${username}/${repository}/contents/${path}`;
-        
+        var updateUrl = `https://api.github.com/repos/${username}/${repository}/contents/${path}`;
+
         // Faz uma requisição PATCH para atualizar o arquivo no GitHub
         fetch(updateUrl, {
             method: 'PATCH',
