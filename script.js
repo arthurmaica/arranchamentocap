@@ -8,9 +8,9 @@ function salvarSolicitacao() {
     var csvRow = posto + ',' + nome + ',' + solicitacao + '\n';
 
     // Configurações para a chamada da API do GitHub
-    var username = 'arthurmaica'; // Substitua pelo seu usuário do GitHub
-    var repository = 'arranchamentocap'; // Substitua pelo nome do seu repositório
-    var path = 'solicitacoes.csv'; // Substitua pelo caminho do arquivo no seu repositório
+    var username = 'https://github.com/arthurmaica'; // Substitua pelo seu usuário do GitHub
+    var repository = 'https://github.com/arthurmaica/arranchamentocap'; // Substitua pelo nome do seu repositório
+    var path = 'https://github.com/arthurmaica/arranchamentocap/blob/main/solicitacoes.csv'; // Substitua pelo caminho do arquivo no seu repositório
     var token = 'das-dasd-asdasd-asd-asdasd-asda'; // Substitua pelo seu token de acesso pessoal do GitHub
 
     // Constrói a URL da API do GitHub para obter o conteúdo do arquivo
