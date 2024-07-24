@@ -1,1 +1,7 @@
-
+CREATE TABLE solicitation (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    posto VARCHAR(50) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    solicitacao TEXT NOT NULL,
+    data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
