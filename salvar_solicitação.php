@@ -1,19 +1,10 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo json_encode(array("message" => "Requisição recebida pelo PHP.")); // Exemplo simples de resposta
-} else {
-    http_response_code(403);
-    echo json_encode(array("message" => "Erro: método de requisição inválido."));
-}
 // Verifica se os dados foram enviados via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recebe os dados do formulário
     $data = json_decode(file_get_contents("php://input"), true);
 
-    // Caminho para o arquivo CSV
+    // Caminho para o arquivo CSV (ajuste o caminho conforme necessário)
     $file = 'solicitacoes.csv';
 
     // Dados a serem escritos no arquivo CSV
