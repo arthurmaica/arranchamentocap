@@ -4,14 +4,14 @@ const fs = require('fs');
 async function updateFile() {
     try {
         // Dados a serem atualizados
-        const posto = 'Soldado';
+        const posto = 'Soldado';  // Aqui você pode modificar para pegar os dados enviados pelo formulário
         const nome = 'João Silva';
         const solicitacao = 'Solicitação de férias';
 
         // Configurações do repositório no GitHub
-        const username = 'arthurmaica';
-        const repository = 'arranchamentocap';
-        const path = 'solicitacoes.csv'; // Substitua pelo caminho do arquivo no seu repositório
+        const username = 'seu_usuario_github';
+        const repository = 'seu_repositorio';
+        const path = 'caminho_do_arquivo/solicitacoes.csv'; // Substitua pelo caminho do arquivo no seu repositório
         const token = process.env.GITHUB_TOKEN;
 
         // Função para obter o conteúdo atual do arquivo no GitHub
