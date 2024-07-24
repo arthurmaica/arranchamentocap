@@ -4,42 +4,60 @@ function salvarSolicitacao() {
     var nome = document.getElementById("nome").value;
     var solicitacao = document.getElementById("solicitacao").value;
 
-    // Monta a linha a ser escrita no arquivo CSV
+    // Monta a linha a ser adicionada no arquivo CSV
     var csvRow = posto + ',' + nome + ',' + solicitacao + '\n';
 
-    // Função para salvar o arquivo CSV localmente
-    function downloadCSV(csvContent) {
+    // Função para salvar as solicitações no arquivo CSV existente
+    function salvarNoCSV(csvContent) {
+        // Cria um Blob com o conteúdo CSV
         var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        if (navigator.msSaveBlob) { // IE 10+
-            navigator.msSaveBlob(blob, 'solicitacoes.csv');
-        } else {
-            var link = document.createElement("a");
-            if (link.download !== undefined) {
-                var url = URL.createObjectURL(blob);
-                link.setAttribute("href", url);
-                link.setAttribute("download", 'solicitacoes.csv');
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
+
+        // Cria um objeto URL temporário para o Blob
+        var url = URL.createObjectURL(blob);
+
+        // Cria um link invisível para simular o download do arquivo CSV
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", 'solicitacoes.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Revoga o URL do objeto Blob para liberar a memória
+        URL.revokeObjectURL(url);
+    }
+
+    // Função para lidar com o conteúdo do arquivo CSV
+    function handleCSVContent(csvContent) {
+        // Verifica se há conteúdo no arquivo CSV atual
+        if (csvContent.trim() === '') {
+            csvContent = 'Posto,Nome,Solicitação\n'; // Cabeçalho do CSV
         }
+
+        // Adiciona a nova linha ao conteúdo existente do CSV
+        csvContent += csvRow;
+
+        // Salva o conteúdo atualizado no arquivo CSV
+        salvarNoCSV(csvContent);
     }
 
-    // Verifica se há solicitações existentes no localStorage
-    var solicitações = localStorage.getItem("solicitações");
-    if (solicitações === null) {
-        solicitações = ''; // Inicializa vazio se não houver
+    // Função para ler o conteúdo do arquivo CSV atual
+    function lerCSV() {
+        var reader = new FileReader();
+
+        // Define a função de callback quando a leitura estiver concluída
+        reader.onload = function(event) {
+            var csvContent = event.target.result;
+            handleCSVContent(csvContent);
+        };
+
+        // Lê o arquivo solicitacoes.csv como texto
+        reader.readAsText(new Blob([''], { type: 'text/csv' }), 'UTF-8');
     }
 
-    // Adiciona a nova solicitação às solicitações existentes
-    solicitações += csvRow;
-
-    // Salva as solicitações no localStorage
-    localStorage.setItem("solicitações", solicitações);
-
-    // Baixa o arquivo CSV com todas as solicitações
-    downloadCSV(solicitações);
+    // Chama a função para ler e manipular o conteúdo do arquivo CSV
+    lerCSV();
 
     // Limpa o formulário após o envio
     document.getElementById("requestForm").reset();
