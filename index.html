@@ -1,57 +1,32 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trabalho de Química</title>
+    <title>Formulário de Arranchamento</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>ATRAZINA</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="#episodio1">O que é a Atrazina?</a></li>
-            <li><a href="#episodio2">Estrutura Química</a></li>
-            <li><a href="#episodio3">Modo de Ação</a></li>
-            <li><a href="#episodio4">Aplicação e Persistência</a></li>
-            <li><a href="#episodio5">Impactos Ambientais</a></li>
-        </ul>
-    </nav>
-    <main>
-        <section id="episodio1">
-            <h2>O que é a Atrazina?</h2>
-            <p>A Atrazina é um herbicida amplamente utilizado na agricultura para controlar o crescimento de ervas daninhas. É uma molécula orgânica que pertence à classe dos triazinas. A sua estrutura química inclui uma cadeia carbônica principal com três anéis de triazina. 
-</p>
-        </section>
-        <section id="episodio2">
-            <h2>Estrutura Química</h2>
-            <img src="imagens/i2.png" alt="Estrutura Química da Atrazina">
-            <p>A atrazina é um herbicida amplamente utilizado na agricultura, conhecido pelo seu nome químico 6-cloro-N-etil-N'-isopropil-1,3,5-triazina-2,4-diamina. Sua fórmula molecular é C8H14ClN5 e possui um peso molecular de aproximadamente 215,68 g/mol. Este composto apresenta-se como um sólido cristalino e é solúvel em solventes orgânicos como acetona e clorofórmio. A estrutura da atrazina é composta por carbonos alifáticos, que incluem carbonos primários, secundários e terciários, dependendo da ligação que possuem com os átomos de carbono vizinhos. A cadeia carbônica da atrazina é alifática e ramificada, contendo três anéis de triazina, o que é uma característica distintiva de sua estrutura. Os grupos funcionais presentes na atrazina incluem um grupo amina (NH2), um grupo cloro (Cl), um grupo etil (C2H5) e um grupo isopropil (C3H7). Esses grupos contribuem para as propriedades químicas e reativas da atrazina. Seguindo a nomenclatura oficial, a atrazina é nomeada como 6-cloro-N-etil-N'-isopropil-1,3,5-triazina-2,4-diamina. Esta nomenclatura reflete a posição dos substituintes e a presença dos anéis de triazina, oferecendo uma descrição detalhada da sua estrutura molecular.</p>
-        </section>
-        <section id="episodio3">
-            <h2>Modo de Ação</h2>
-            <p>O ingrediente ativo ATRAZINA é absorvido pelas plantas através das raízes e se transloca via xilema até as folhas onde provoca a inibição da fotossíntese, cujos sintomas se manifestam através da clorose, necrose e morte das invasoras. O potencial herbicida da atrazina deve-se à sua ação na inibição da fotossíntese pela interrupção da reação de Hill. Sua biodisponibilidade em solos é governada essencialmente pelo equilíbrio dinâmico existente entre a solubilidade na fase aquo- sa e a capacidade adsortiva do composto no sistema coloidal do solo.
+    <div class="container">
+        <h2>Formulário de Arranchamento</h2>
+        <form id="requestForm">
+            <label for="posto">Posto de Graduação:</label>
+            <select id="posto" name="posto">
+                <option value="Cabo">Cabo</option>
+                <option value="Soldado">Soldado</option>
+                <option value="Efetivo Variável">Efetivo Variavel</option>
+            </select><br><br>
 
-        </section>
-        <section id="episodio4">
-            <h2>Aplicação e Persistência</h2>
-            <img src="imagens/i3.png" alt="Aplicação e Persistência da Atrazina">
-            <p>A atrazina é um herbicida seletivo e de ação sistêmica amplamente utilizado na agricultura, especialmente em plantações de milho, cana-de-açúcar e sorgo. Sua aplicação pode ser feita tanto em pré-emergência quanto em pós-emergência inicial das plantas daninhas, sendo mais eficaz quando estas estão ainda jovens. A versatilidade na aplicação da atrazina faz com que ela seja uma escolha popular entre os agricultores que buscam um controle eficiente de ervas daninhas.</p>
-        </section>
-        <section id="episodio5">
-            <h2>Impactos Ambientais</h2>
-            <img src="imagens/i1.png" alt="Impactos Ambientais da Atrazina">
-            <p>A atrazina, embora amplamente utilizada na agricultura devido à sua eficácia e baixo custo, apresenta diversos impactos ambientais que necessitam de consideração cuidadosa. A sua persistência no solo, potencial de mobilidade e efeitos sobre organismos não alvo são áreas de particular preocupação.</p>
-        </section>
-    </main>
-    <footer>
-        <section id="sobre-nos">
-            <p>Arthur H. T. Maicá - Curso de Engenharia da Computação - Setrem</p>
-        </section>
-        <p>&copy; 2024 Trabalho sobre a Atrazina</p>
-    </footer>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required><br><br>
+
+            <label for="solicitacao">Solicitação:</label><br>
+            <textarea id="solicitacao" name="solicitacao" rows="4" cols="50" required></textarea><br><br>
+
+            <button type="button" onclick="salvarSolicitacao()">Enviar</button>
+        </form>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
