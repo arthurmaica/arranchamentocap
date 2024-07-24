@@ -14,9 +14,9 @@ function salvarSolicitacao() {
     // Converte o objeto para JSON
     var jsonData = JSON.stringify(dadosSolicitacao);
 
-    // Requisição Ajax (simulação para escrever no arquivo)
+    // Requisição Ajax para enviar os dados para salvar_solicitacao.php
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "salvar_solicitacao.php", true); // Substitua "salvar_solicitacao.php" pelo seu script de servidor
+    xhr.open("POST", "salvar_solicitacao.php", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(jsonData);
 
