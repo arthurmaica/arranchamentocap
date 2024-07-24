@@ -16,22 +16,24 @@ function salvarSolicitacao() {
     // Constrói a URL da API do GitHub para obter o conteúdo do arquivo
     var apiUrl = `https://api.github.com/repos/${username}/${repository}/contents/${path}`;
 
-    // Faz uma requisição GET para obter o conteúdo atual do arquivo CSV
-    fetch(apiUrl, {
-        headers: {
-            Authorization: `token ${token}`
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
+   // Faz uma requisição GET para obter o conteúdo atual do arquivo CSV
+fetch(apiUrl, {
+    headers: {
+        Authorization: `token ${token}`
+    }
+})
+.then(response => response.json())
+.then(data => {
+    // Verifica se o arquivo existe antes de tentar acessar o conteúdo
+    if (data.content) {
         // Decodifica o conteúdo do arquivo do GitHub (base64)
-        var content = atob(data.content);
+        var content = Buffer.from(data.content, 'base64').toString('utf-8');
         
         // Adiciona a nova linha ao conteúdo existente
         content += csvRow;
 
         // Codifica o conteúdo atualizado em base64
-        var updatedContent = btoa(unescape(encodeURIComponent(content)));
+        var updatedContent = Buffer.from(content).toString('base64');
 
         // Constrói o corpo da requisição PATCH para atualizar o arquivo no GitHub
         var requestBody = {
@@ -63,9 +65,11 @@ function salvarSolicitacao() {
             console.error('Erro:', error);
             alert('Erro ao enviar a solicitação.');
         });
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        alert('Erro ao obter o conteúdo do arquivo no GitHub.');
-    });
-}
+    } else {
+        alert('Erro: o arquivo solicitado não foi encontrado.');
+    }
+})
+.catch(error => {
+    console.error('Erro:', error);
+    alert('Erro ao obter o conteúdo do arquivo no GitHub.');
+});
