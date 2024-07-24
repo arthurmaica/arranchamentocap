@@ -7,58 +7,65 @@ function salvarSolicitacao() {
     // Monta a linha a ser adicionada no arquivo CSV
     var csvRow = posto + ',' + nome + ',' + solicitacao + '\n';
 
-    // Função para salvar as solicitações no arquivo CSV existente
-    function salvarNoCSV(csvContent) {
-        // Cria um Blob com o conteúdo CSV
-        var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    // Configurações para a chamada da API do GitHub
+    var username = 'arthurmaica'; // Substitua pelo seu usuário do GitHub
+    var repository = 'arranchamentocap'; // Substitua pelo nome do seu repositório
+    var path = 'solicitacoes.csv'; // Substitua pelo caminho do arquivo no seu repositório
+    var token = 'das-dasd-asdasd-asd-asdasd-asda'; // Substitua pelo seu token de acesso pessoal do GitHub
 
-        // Cria um objeto URL temporário para o Blob
-        var url = URL.createObjectURL(blob);
+    // Constrói a URL da API do GitHub para obter o conteúdo do arquivo
+    var apiUrl = `https://api.github.com/repos/${arthurmaica}/${arranchamentocap}/contents/${solicitacoes.csv}`;
 
-        // Cria um link invisível para simular o download do arquivo CSV
-        var link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", 'solicitacoes.csv');
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Revoga o URL do objeto Blob para liberar a memória
-        URL.revokeObjectURL(url);
-    }
-
-    // Função para lidar com o conteúdo do arquivo CSV
-    function handleCSVContent(csvContent) {
-        // Verifica se há conteúdo no arquivo CSV atual
-        if (csvContent.trim() === '') {
-            csvContent = 'Posto,Nome,Solicitação\n'; // Cabeçalho do CSV
+    // Faz uma requisição GET para obter o conteúdo atual do arquivo CSV
+    fetch(apiUrl, {
+        headers: {
+            Authorization: `token ${token}`
         }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Decodifica o conteúdo do arquivo do GitHub (base64)
+        var content = atob(data.content);
+        
+        // Adiciona a nova linha ao conteúdo existente
+        content += csvRow;
 
-        // Adiciona a nova linha ao conteúdo existente do CSV
-        csvContent += csvRow;
+        // Codifica o conteúdo atualizado em base64
+        var updatedContent = btoa(content);
 
-        // Salva o conteúdo atualizado no arquivo CSV
-        salvarNoCSV(csvContent);
-    }
-
-    // Função para ler o conteúdo do arquivo CSV atual
-    function lerCSV() {
-        var reader = new FileReader();
-
-        // Define a função de callback quando a leitura estiver concluída
-        reader.onload = function(event) {
-            var csvContent = event.target.result;
-            handleCSVContent(csvContent);
+        // Constrói o corpo da requisição PATCH para atualizar o arquivo no GitHub
+        var requestBody = {
+            message: 'Adicionando nova solicitação via formulário',
+            content: updatedContent,
+            sha: data.sha
         };
 
-        // Lê o arquivo solicitacoes.csv como texto
-        reader.readAsText(new Blob([''], { type: 'text/csv' }), 'UTF-8');
-    }
+        // Constrói a URL da API do GitHub para atualizar o arquivo
+        var updateUrl = `https://api.github.com/repos/${username}/${repository}/contents/${path}`;
 
-    // Chama a função para ler e manipular o conteúdo do arquivo CSV
-    lerCSV();
-
-    // Limpa o formulário após o envio
-    document.getElementById("requestForm").reset();
+        // Faz uma requisição PATCH para atualizar o arquivo no GitHub
+        fetch(updateUrl, {
+            method: 'PATCH',
+            headers: {
+                Authorization: `token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar o arquivo no GitHub');
+            }
+            alert('Solicitação enviada com sucesso!');
+            document.getElementById("requestForm").reset(); // Limpa o formulário após o envio
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao enviar a solicitação.');
+        });
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao obter o conteúdo do arquivo no GitHub.');
+    });
 }
