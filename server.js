@@ -14,10 +14,10 @@ app.post('/api/salvar-solicitacao', async (req, res) => {
         const { posto, nome, solicitacao } = req.body;
 
         // Configurações para autenticação no GitHub
-        const username = 'seu_usuario_github';
-        const repository = 'seu_repositorio';
-        const path = 'caminho_do_arquivo/solicitacoes.csv'; // Substitua pelo caminho do arquivo no seu repositório
-        const token = 'seu_token_de_acesso_pessoal_do_github';
+        const username = 'arthurmaica';
+        const repository = 'arranchamentocap';
+        const path = 'solicitacoes.csv'; // Substitua pelo caminho do arquivo no seu repositório
+        const token = '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';
 
         // Função para obter o conteúdo atual do arquivo no GitHub
         async function getContent() {
